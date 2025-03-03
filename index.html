@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Eric's Legacy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+  <style>
+    /* RESET */
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: Raleway;
+    }
+    .network_details{
+      padding-left: 8px;
+    }
+    .small{
+      display: block;
+      font-size: smaller;
+      border: 1px solid rgba(0,0,0,.2);
+      height: 75px;
+    }
+
+    /* Global Fixed Parallax Backgrounds (optional; can be omitted or adjusted) */
+    #globalParallax1,
+    #globalParallax2 {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      z-index: -1;
+      transition: opacity 1s ease-in-out;
+    }
+    #globalParallax1 { opacity: 1; }
+    #globalParallax2 { opacity: 0; }
+
+    /* NAVIGATION & PROGRESS */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1100;
+      background-color: rgba(0,0,0,0.9);
+    }
+    .navbar-nav { opacity: 1; }
+    .progress-container {
+      position: fixed;
+      top: 56px; /* adjust if navbar height differs */
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: #f3f3f3;
+      z-index: 1200;
+    }
+    .progress-bar {
+      height: 4px;
+      background: #007bff;
+      width: 0%;
+    }
+
+    /* HERO SECTION */
+    .hero-section {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+    }
+    #heroVideo {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  object-position: left center;
+  transform: translateY(-50%);
+}
+
+    .hero-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .hero-overlay h1 {
+      color: #fff;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .hero-overlay .apply-btn {
+      margin-bottom: 30px;
+    }
+
+    /* MAIN CONTENT & SECTIONS */
+    .main-content {
+      position: relative;
+      z-index: 1;
+    }
+    .content-section {
+      scroll-margin-top: 70px;
+      padding: 50px;
+      margin: 85vh auto 100px auto;
+      max-width: 900px;
+      background-color: aliceblue;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      opacity: 0;
+      transform: translateY(50px);
+      transition: opacity 1s ease, transform 1s ease;
+    }
+    .content-section.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .content-section h2,
+    .content-section p,
+    .content-section ul {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 1s ease 0.3s, transform 1s ease 0.3s;
+    }
+    .content-section.show h2,
+    .content-section.show p,
+    .content-section.show ul {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* SCHOLARSHIP DETAILS (Section II) */
+    #scholarship-details ul {
+      list-style: none;
+      padding-left: 0;
+    }
+    #scholarship-details ul li::before {
+      content: "• ";
+      color: #007bff;
+    }
+
+    /* GALLERY & PAST RECIPIENTS CAROUSELS */
+    .carousel-item .row > div { padding: 5px; }
+    .gallery-image, .recipient-image {
+      width: 100%;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      cursor: pointer;
+    }
+    .gallery-image { padding-bottom: 75%; } /* 4:3 ratio */
+    .recipient-image { padding-bottom: 133.33%; } /* 3:4 ratio */
+    .carousel-caption { display: none; }
+    
+    /* NETWORK & FINAL CTA */
+    /* (Add any additional styling as needed) */
+
+    /* MODAL CUSTOMIZATION */
+    .modal-dialog {
+      max-width: 90%;
+      margin: 1rem auto;
+    }
+    .modal-body {
+      padding: 0;
+    }
+    .modal-body img {
+      width: 100%;
+      max-height: 65vh; /* As requested */
+      object-fit: contain;
+      display: block;
+    }
+
+    /* PERSISTENT FIXED DOWNWARD CHEVRON */
+    .fixed-chevron {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 2rem;
+      color: #fff;
+      cursor: pointer;
+      z-index: 1300;
+      animation: bounce 3s infinite;
+      text-shadow: 1px 1px 2px black;
+
+    }
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+      40% { transform: translateX(-50%) translateY(-5px); }
+      60% { transform: translateX(-50%) translateY(-2px); }
+    }
+  </style>
+</head>
+<body>
+  <!-- Global Parallax Backgrounds (optional) -->
+  <div id="globalParallax1"></div>
+  <div id="globalParallax2"></div>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="#">Eric's Legacy</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+              aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <!--<li class="nav-item"><a class="nav-link" href="#about-eric">Honoring Eric</a></li> -->
+          <li class="nav-item"><a class="nav-link" href="#scholarship-details">Scholarship Details</a></li>
+          <li class="nav-item"><a class="nav-link" href="#legacy-teaser">Eric's Story</a></li>
+          <li class="nav-item"><a class="nav-link" href="#gallery">Gallery</a></li>
+          <li class="nav-item"><a class="nav-link" href="#network">His Network</a></li>
+          <li class="nav-item"><a class="nav-link" href="#past-recipients">Past Recipients</a></li>
+          <li class="nav-item"><a class="nav-link" href="#final-cta">Apply</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Progress Bar -->
+  <div class="progress-container">
+    <div class="progress-bar" id="progressBar"></div>
+  </div>
+
+  <!-- HERO SECTION -->
+  <section id="hero" class="hero-section">
+    <video autoplay muted loop id="heroVideo">
+      <source src="video.mp4" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+    <div class="hero-overlay d-flex flex-column align-items-center justify-content-center">
+      <h1 class="text-white">Eric Miller PantherVision Scholarship</h1>
+      <a href="#final-cta" class="btn btn-primary apply-btn">Apply Now</a>
+    </div>
+  </section>
+  
+  <!-- About Eric Section in Two-Column Layout -->
+  <div class="container">
+    <div class="row">
+      <!-- Left column (placeholder image) -->
+      <div class="col-md-6 d-none d-md-block">
+        <!-- <img src="upscaled/eric.jpg" alt="Eric Miller" class="img-fluid rounded">-->
+      </div>
+      <!-- Right column: About Eric -->
+      <div class="col-12 col-md-6">
+        <section id="about-eric" class="content-section" data-bg="upscaled/eric.jpg" data-bg-pos="left center" style="margin-top: 20vh;">
+          <h2>Honoring Eric</h2>
+          <p>
+            Eric J. Miller (1984–2016) was a passionate journalist, technologist, and visual storyteller whose global 
+            work—from the halls of DC to the streets of Mumbai—reflected both his <em>creative vision</em> and his <em>generous spirit</em>.
+          </p>
+          <p>
+            Known for his dedication and generosity, Eric was always willing to share his knowledge, tools, skills, and network with the people and projects he believed in. His legacy lives on through the <strong>Eric Miller PantherVision Scholarship</strong>, supporting aspiring storytellers committed to excellence, innovation, and truth.
+          </p>
+          <p>Read on for application details and to learn more about his inspiring journey.</p>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCHOLARSHIP DETAILS SECTION -->
+  <section id="scholarship-details" class="content-section" data-bg="upscaled/apply.jpg" data-bg-pos="right center">
+    <h2>Scholarship Details</h2>
+    <p>
+      The Eric Miller PantherVision Scholarship is designed to empower students with a passion for 
+      journalism, visual storytelling, and social justice.
+    </p>
+    <h3>Key Benefits</h3>
+    <ul>
+      <li><strong>Financial Support:</strong> $2,000 to fuel your academic pursuits.</li>
+      <li><strong>Mentorship:</strong> Access to Eric's network of seasoned professionals.</li>
+      <li><strong>Recognition:</strong> A prestigious honor celebrating excellence and compassion.</li>
+    </ul>
+    <h3>Eligibility</h3>
+    <p>
+      The competition is open to students at any Wisconsin institution of higher education who have achieved a minimum of sophomore standing 
+      as of the scholarship year, or, if at a technical college, completion of the first year by May of the application year. One student will be selected each year. 
+    </p>
+    <h3>Timeline</h3>
+    <ul>
+      <li><strong>Applications Open:</strong> January 1, 2026</li>
+      <li><strong>Deadline:</strong> April 15, 2026</li>
+      <li><strong>Winners Announced:</strong> May 1, 2026</li>
+    </ul>
+    <h3>Selection Criteria</h3>
+    <ul>
+      <li>Academic achievement</li>
+      <li>Evidence of growing skills as a visual storyteller</li>
+      <li>Commitment to journalism or otherwise speaking truth to power</li>
+      <li>Embodying the spirit of Eric Miller</li>
+    </ul>
+    <p>To learn more about Eric's inspiring life, please review the material below.</p>
+  </section>
+
+  <!-- BRIEF LEGACY TEASER -->
+  <section id="legacy-teaser" class="content-section" data-bg="upscaled/istanbul.jpg">
+    <h2>Eric's Career</h2>
+    <p>
+      From the local Apple "genius bar" to the media scrums of the World Economic Forum in Davos, Switzerland, Eric leveraged his skills with technology and visual storytelling to educate and empower people.
+    </p>
+    <p>
+      He was remarkably versatile; few in the industry can claim to have served as a production assistant on a Bernie Mac film and to have shot and edited exclusive 1:1 interviews with heads of state, including former Iranian President Mohammad Khatami. In 2008–2009, he literally circled the globe with British broadcast news presenter Riz Khan, capturing interviews with leaders, celebrities, and visionaries as a <strong>Preditor</strong> (Producer who also shoots and edits).
+    </p>
+
+  </section>
+
+  <!-- GALLERY CAROUSEL -->
+  <section id="gallery" class="content-section" data-bg="upscaled/gallery.jpg">
+    <h2>Gallery</h2>
+    <p>
+      Explore highlights from Eric’s global adventures and unforgettable interviews.
+    </p>
+    <div id="galleryCarousel" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-indicators">
+        <button type="button" data-bs-target="#galleryCarousel" data-bs-slide-to="0" class="active" aria-current="true"></button>
+        <button type="button" data-bs-target="#galleryCarousel" data-bs-slide-to="1"></button>
+      </div>
+      <div class="carousel-inner">
+        <!-- Slide 1: Two images side by side -->
+        <div class="carousel-item active">
+          <div class="row">
+            <div class="col-6">
+              <div class="gallery-image" style="background-image: url('images/hawking.jpg');" data-caption="Eric Miller with Stephen Hawking"></div>
+            </div>
+            <div class="col-6">
+              <div class="gallery-image" style="background-image: url('images/jackson.jpg');" data-caption="Eric with Jesse Jackson"></div>
+            </div>
+          </div>
+        </div>
+        <!-- Slide 2: Two images side by side -->
+        <div class="carousel-item">
+          <div class="row">
+            <div class="col-6">
+              <div class="gallery-image" style="background-image: url('images/istanbul.jpg');" data-caption="Eric filming in Istanbul"></div>
+            </div>
+            <div class="col-6">
+              <div class="gallery-image" style="background-image: url('images/istanbul.jpg');" data-caption="Eric filming in Istanbul"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#galleryCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#galleryCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+  </section>
+  
+  <!-- SUPPORTING CONTEXT: PANTHERVISION -->
+  <section id="panthervision" class="content-section" data-bg="upscaled/panthervision.jpg">
+    <h2>Why PantherVision?</h2>
+    <p>
+      Eric’s journalism journey started at <strong>PantherVision</strong>—the student-produced newscast at UWM—where, under 
+      the guidance of mentor and future-friend <strong>Mark Zoromski</strong>, he honed his skills as a photojournalist, 
+      editor, and producer.</p> <p>Even after graduation, he remained one of PantherVision’s most dedicated alumnus, 
+      contributing custom animations, technical expertise, and support. His contributions helped 
+      propel PantherVision to a historic <strong>Edward R. Murrow Award</strong> win.
+    </p>
+  </section>
+  
+  <!-- Eric the Man -->
+  <section id="theman" class="content-section" data-bg="upscaled/08.jpg">
+    <h2>Eric the Man</h2>
+    <p>
+      Eric's legacy extends beyond his professional achievements; his <strong>generosity</strong> shone through in nurturing young talent, sharing his knowledge, and even gifting old MacBooks and hard drives to eager learners.
+    </p>
+    <p>
+      Eric’s colleagues, friends, and family will remember him as a <strong>generous friend</strong>, a <strong>dog lover</strong>, a <strong>film buff</strong>, an amateur astronomer, a proud cheesehead, and even a long-distance cyclist.
+    </p>
+    <p>
+      Eric loved to <strong>take care of people</strong>. He could always be counted on for a <strong>grand movie night</strong> with a great home-made meal and a Pixar or SciFi film on the largest screen in any livingroom in the neighborhood. He loved <strong>making his friends smile</strong> and connecting people.
+      His life inspires us to <strong>uplift others</strong>, explore the world, enjoy great film, and pursue truth relentlessly.
+    </p>
+    
+  </section>
+
+
+  <!-- PAST RECIPIENTS CAROUSEL -->
+  <section id="network" class="content-section" data-bg="upscaled/calendar.jpg">
+    <h2>Eric's Network</h2>
+    <p>In addition to one-time financial support, recipients recieve ongoing access to Eric's professional network.
+      Below, we've collected a small sample of the people who've offered their time and wisdom to current and future recipients.
+    </p>
+    <div id="recipientsCarousel" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-indicators">
+        <button type="button" data-bs-target="#recipientsCarousel" data-bs-slide-to="0" class="active" aria-current="true"></button>
+        <button type="button" data-bs-target="#recipientsCarousel" data-bs-slide-to="1"></button>
+      </div>
+      <div class="carousel-inner">
+        <!-- Slide 1: Three headshots -->
+        <div class="carousel-item active">
+          <div class="row">
+            <div class="col-4">
+              <div class="recipient-image" style="background-image: url('upscaled/mark2.jpg');" data-caption="Recipient 1"></div>
+              <strong>Mark Zoromski</strong>
+              <span class="small">
+              Senior Lecturer, Broadcast Journalism at University of Wisconsin-Milwaukee, 
+            </span>
+            </div>
+            <div class="col-4">
+              <div class="recipient-image" style="background-image: url('upscaled/benpro.jpg');" data-caption="Recipient 2"></div>
+              <strong>Ben Connors</strong>
+              <span class="small">
+              Creative Technologist, Producer, Past: Washington Post, Al Jazeera, McClatchy News
+            </span>
+            </div>
+            <div class="col-4">
+              <div class="recipient-image" style="background-image: url('upscaled/laura.jpg');" data-caption="Recipient 3"></div>
+              <strong>Laura Dyan Kezman</strong>
+              <span class="small">
+              Founder, Director at LionArt Media, Past: National Geographic, Al Jazeera, 88Nine Radio Milwaukee
+            </span>
+            </div>
+          </div>
+        </div>
+        <!-- Slide 2: Three headshots -->
+        <div class="carousel-item">
+          <div class="row">
+            <div class="col-4">
+              <div class="recipient-image" style="background-image: url('upscaled/rebecca.jpg');" data-caption="Recipient 4"></div>
+              <strong>Rebecca Byerly</strong>
+              <span class="small">
+                Filmmaker. Journalist. Adventure Athlete, Freelance: Christian Science Monitor, National Geographic, NYT, FT Etc.
+              </span>
+            </div>
+            <div class="col-4">
+              <div class="recipient-image" style="background-image: url('upscaled/04.jpg');" data-caption="Recipient 5"></div>
+            </div>
+            <div class="col-4">
+              <div class="recipient-image" style="background-image: url('upscaled/04.jpg');" data-caption="Recipient 6"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#recipientsCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#recipientsCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+  </section>
+
+
+  <!-- PAST RECIPIENTS CAROUSEL -->
+  <section id="past-recipients" class="content-section" data-bg="upscaled/26.jpg">
+    <h2>A Living Legacy: Past Recipients</h2>
+    <p>
+      Eric was inspired by scientists like Carl Sagan and believed that energy is never lost, only transformed. See how past recipients have carried forward his commitment to ethical journalism and innovative storytelling.
+    </p>
+    <p>
+      These outstanding scholars have benefited from the Eric Miller PantherVision Scholarship in the past.
+    </p>
+    <div id="recipientsCarousel" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-indicators">
+        <button type="button" data-bs-target="#recipientsCarousel" data-bs-slide-to="0" class="active" aria-current="true"></button>
+        <button type="button" data-bs-target="#recipientsCarousel" data-bs-slide-to="1"></button>
+      </div>
+      <div class="carousel-inner">
+        <!-- Slide 1: Three headshots -->
+        <div class="carousel-item active">
+          <div class="row">
+            <div class="col-4">
+              <div class="recipient-image" style="background-image: url('upscaled/04.jpg');" data-caption="Recipient 1"></div>
+            </div>
+            <div class="col-4">
+              <div class="recipient-image" style="background-image: url('upscaled/04.jpg');" data-caption="Recipient 2"></div>
+            </div>
+            <div class="col-4">
+              <div class="recipient-image" style="background-image: url('upscaled/04.jpg');" data-caption="Recipient 3"></div>
+            </div>
+          </div>
+        </div>
+        <!-- Slide 2: Three headshots -->
+        <div class="carousel-item">
+          <div class="row">
+            <div class="col-4">
+              <div class="recipient-image" style="background-image: url('upscaled/04.jpg');" data-caption="Recipient 4"></div>
+            </div>
+            <div class="col-4">
+              <div class="recipient-image" style="background-image: url('upscaled/04.jpg');" data-caption="Recipient 5"></div>
+            </div>
+            <div class="col-4">
+              <div class="recipient-image" style="background-image: url('upscaled/04.jpg');" data-caption="Recipient 6"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#recipientsCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#recipientsCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- NETWORK INFORMATION SECTION 
+  <section id="network-info" class="content-section" data-bg="upscaled/networking.jpg">
+    <h2>Join the Network</h2>
+    <p>
+      Join a vibrant community of experienced mentors, industry professionals, and fellow scholars who offer personalized career guidance, networking events, and creative collaborations to help you push boundaries and create positive change.
+    </p>
+  </section>
+-->
+
+  <!-- FINAL CALL-TO-ACTION SECTION -->
+  <section id="final-cta" class="content-section" data-bg="upscaled/eric_.jpg" style="margin-bottom: 300px;">
+    <h2>Apply Now</h2>
+    <p>
+      If <strong>you</strong> are driven by a <strong><em>passion for visual storytelling</em></strong>, <strong><em>technical innovation</em></strong>, and <strong><em>making a meaningful impact</em></strong>, we invite you to apply for the <strong>Eric Miller PantherVision Scholarship</strong> and join a legacy that continues to inspire.
+    </p>
+    
+    <a target="_blank" href="https://www.dropbox.com/scl/fi/vsph9cy41v2av1cq44fpj/EJMScholarship-Application.docx?e=1&fbclid=IwY2xjawIx7m5leHRuA2FlbQIxMAABHUAjyHyrWouA97wIiRIHV-Xd4gxPimPD5AJuE2nSahkw17DM7f8YIxfXHg_aem_wgGah0OyepHD7uFOe31UZw&rlkey=ahqj2qky3wh0wer2enuo6ytcj&dl=0" class="btn btn-primary">Start Your Application</a>
+  </section>
+  <!-- END MAIN CONTENT -->
+
+  <!-- Lightbox Modal for Gallery & Recipients -->
+  <div class="modal fade" id="lightboxModal" tabindex="-1" aria-labelledby="lightboxModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="lightboxModalLabel">Image Preview</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <img id="lightboxImage" src="" class="img-fluid" alt="">
+          <p id="lightboxCaption" class="mt-2 text-center"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Persistent Fixed Downward Chevron -->
+  <div class="fixed-chevron" id="fixedChevron">&#x25BC;</div>
+
+  <!-- SCRIPTS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.min.js"></script>
+  <script>
+    // Reveal content sections on scroll
+    $(document).ready(function(){
+      $('.content-section').each(function(){
+        var section = $(this);
+        new Waypoint({
+          element: section[0],
+          handler: function(direction){
+            if(direction === 'down'){
+              section.addClass('show');
+            }
+          },
+          offset: '85%'
+        });
+      });
+      
+      // Update progress bar on scroll
+      $(window).on('scroll', function(){
+        var scrollTop = $(this).scrollTop();
+        var docHeight = $(document).height() - $(window).height();
+        var scrollPercent = (scrollTop / docHeight) * 100;
+        $('#progressBar').css('width', scrollPercent + '%');
+      });
+    });
+    
+    // Close navbar on mobile after clicking a link
+    document.addEventListener("DOMContentLoaded", function(){
+      let navLinks = document.querySelectorAll(".navbar-nav .nav-link");
+      let bsCollapse = new bootstrap.Collapse(document.querySelector(".navbar-collapse"), { toggle: false });
+      navLinks.forEach(function(link){
+        link.addEventListener("click", function(){
+          if(window.innerWidth < 992){
+            bsCollapse.hide();
+          }
+        });
+      });
+    });
+    
+    // Preload first background image for parallax
+    document.addEventListener('DOMContentLoaded', function(){
+      const parallax1 = document.getElementById('globalParallax1');
+      parallax1.style.backgroundImage = "url('upscaled/eric.jpg')";
+    });
+    
+    document.addEventListener('DOMContentLoaded', function() {
+      const sections = document.querySelectorAll('.content-section[data-bg]');
+      const parallax1 = document.getElementById('globalParallax1');
+      const parallax2 = document.getElementById('globalParallax2');
+      let currentActive = 1; // 1 means parallax1 is active, 2 means parallax2
+
+      // Adjusted observer options: threshold 0.5 and a rootMargin offset (e.g., -20% from the bottom)
+      const observerOptions = {
+        threshold: 0.5,
+        rootMargin: "0px 0px 70% 0px"
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const newBg = entry.target.getAttribute('data-bg');
+            let activeDiv, inactiveDiv;
+            if (currentActive === 1) {
+              activeDiv = parallax1;
+              inactiveDiv = parallax2;
+            } else {
+              activeDiv = parallax2;
+              inactiveDiv = parallax1;
+            }
+            // Only update if the inactive div doesn't already have the new background
+            if (inactiveDiv.style.backgroundImage !== `url("${newBg}")`) {
+              inactiveDiv.style.backgroundImage = `url('${newBg}')`;
+              inactiveDiv.style.opacity = 0;
+              setTimeout(() => {
+                activeDiv.style.opacity = 0;
+                inactiveDiv.style.opacity = 1;
+                currentActive = (currentActive === 1) ? 2 : 1;
+              }, 100);
+            }
+          }
+        });
+      }, observerOptions);
+
+      sections.forEach(section => observer.observe(section));
+    });
+
+    // Lightbox: open modal when clicking on a gallery or recipient image
+    document.querySelectorAll('.gallery-image, .recipient-image').forEach(div => {
+      div.addEventListener('click', function(){
+        const style = window.getComputedStyle(this);
+        const bgImage = style.getPropertyValue('background-image');
+        const src = bgImage.slice(5, -2);
+        const caption = this.getAttribute('data-caption') || '';
+        document.getElementById('lightboxImage').src = src;
+        document.getElementById('lightboxCaption').innerText = caption;
+        new bootstrap.Modal(document.getElementById('lightboxModal')).show();
+      });
+    });
+    // Fixed Downward Chevron: scroll smoothly to next section and hide at page bottom.
+document.getElementById('fixedChevron').addEventListener('click', function() {
+  const viewportHeight = window.innerHeight;
+  const currentScroll = window.scrollY;
+  let nextSection = null;
+
+  // Find the first .content-section whose top is below half the viewport from current scroll
+  document.querySelectorAll('.content-section').forEach(function(sec) {
+    if (sec.offsetTop > currentScroll + viewportHeight / 2 && !nextSection) {
+      nextSection = sec;
+    }
+  });
+  
+  if (nextSection) {
+    let target = nextSection.offsetTop;
+    // If the section is shorter than the viewport, center it vertically.
+    if (nextSection.offsetHeight < viewportHeight) {
+      target = nextSection.offsetTop - ((viewportHeight - nextSection.offsetHeight) / 2);
+    }
+    window.scrollTo({ top: target, behavior: 'smooth' });
+  }
+});
+
+// Hide the chevron when nearing the bottom of the page
+window.addEventListener('scroll', function() {
+  const chevron = document.getElementById('fixedChevron');
+  // Check if we're within 100px of the bottom
+  if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100) {
+    chevron.style.opacity = 0;
+  } else {
+    chevron.style.opacity = 1;
+  }
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+  const sections = document.querySelectorAll('.content-section[data-bg]');
+  const parallax1 = document.getElementById('globalParallax1');
+  const parallax2 = document.getElementById('globalParallax2');
+  let currentActive = 1; // 1 means parallax1 is active, 2 means parallax2
+
+  const observerOptions = {
+    threshold: 0.5,
+    rootMargin: "0px 0px 70% 0px"
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const newBg = entry.target.getAttribute('data-bg');
+        // Get a custom background position if provided; default to "center center"
+        const newPos = entry.target.getAttribute('data-bg-pos') || "center center";
+        let activeDiv, inactiveDiv;
+        if (currentActive === 1) {
+          activeDiv = parallax1;
+          inactiveDiv = parallax2;
+        } else {
+          activeDiv = parallax2;
+          inactiveDiv = parallax1;
+        }
+        // Only update if the inactive div doesn't already have the new background
+        if (inactiveDiv.style.backgroundImage !== `url("${newBg}")`) {
+          inactiveDiv.style.backgroundImage = `url('${newBg}')`;
+          inactiveDiv.style.backgroundPosition = newPos;
+          inactiveDiv.style.opacity = 0;
+          setTimeout(() => {
+            activeDiv.style.opacity = 0;
+            inactiveDiv.style.opacity = 1;
+            currentActive = (currentActive === 1) ? 2 : 1;
+          }, 100);
+        }
+      }
+    });
+  }, observerOptions);
+
+  sections.forEach(section => observer.observe(section));
+});
+
+
+  </script>
+</body>
+</html>
