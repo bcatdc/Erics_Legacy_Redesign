@@ -29,9 +29,13 @@ jobs:
         uses: actions/configure-pages@v4
 
       - name: Upload artifact
+        run: |
+          mkdir artifact
+          cp -r ./public/* ./artifact/
+      - name: Upload to GitHub Pages
         uses: actions/upload-pages-artifact@v3
         with:
-          path: public/
+          path: ./artifact
 
 
       - name: Deploy to GitHub Pages
