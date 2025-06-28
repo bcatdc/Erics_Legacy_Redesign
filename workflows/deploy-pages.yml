@@ -28,15 +28,15 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
-      - name: Upload artifact
+      - name: Copy site files (flatten public/)
         run: |
-          mkdir artifact
-          cp -r ./public/* ./artifact/
-      - name: Upload to GitHub Pages
+          mkdir out
+          cp -r public/* out/
+
+      - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./artifact
-
+          path: ./out
 
       - name: Deploy to GitHub Pages
         id: deployment
