@@ -1,0 +1,203 @@
+/* RESET */
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: Raleway;
+    }
+    .network_details{
+      padding-left: 8px;
+    }
+    .small{
+      display: block;
+      font-size: smaller;
+      
+      height: 75px;
+    }
+
+    .carousel-inner{
+      padding-left: 10px;
+    }
+    .carousel-indicators{
+      margin-bottom:-2.2rem;
+    }
+    .carousel-indicators [data-bs-target]{
+      background-color: #007bff;
+    }
+
+
+    /* Global Fixed Parallax Backgrounds (optional; can be omitted or adjusted) */
+    #globalParallax1,
+    #globalParallax2 {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      z-index: -1;
+      transition: opacity 1s ease-in-out;
+    }
+    #globalParallax1 { opacity: 1; }
+    #globalParallax2 { opacity: 0; }
+
+    /* NAVIGATION & PROGRESS */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1100;
+      background-color: rgba(0,0,0,0.9);
+    }
+    .navbar-nav { opacity: 1; }
+    .progress-container {
+      position: fixed;
+      top: 56px; /* adjust if navbar height differs */
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: #f3f3f3;
+      z-index: 1200;
+    }
+    .progress-bar {
+      height: 4px;
+      background: #007bff;
+      width: 0%;
+    }
+
+    /* HERO SECTION */
+    .hero-section {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+    }
+    #heroVideo {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  object-position: left center;
+  transform: translateY(-50%);
+}
+
+    .hero-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .hero-overlay h1 {
+      color: #fff;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .hero-overlay .apply-btn {
+      margin-bottom: 30px;
+    }
+
+    /* MAIN CONTENT & SECTIONS */
+    .main-content {
+      position: relative;
+      z-index: 1;
+    }
+    .content-section {
+      scroll-margin-top: 70px;
+      padding: 50px;
+      margin: 85vh auto 100px auto;
+      max-width: 900px;
+      background-color: aliceblue;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      opacity: 0;
+      transform: translateY(50px);
+      transition: opacity 1s ease, transform 1s ease;
+    }
+    .content-section.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .content-section h2,
+    .content-section p,
+    .content-section ul {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 1s ease 0.3s, transform 1s ease 0.3s;
+    }
+    .content-section.show h2,
+    .content-section.show p,
+    .content-section.show ul {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* SCHOLARSHIP DETAILS (Section II) */
+    #scholarship-details ul {
+      list-style: none;
+      padding-left: 0;
+    }
+    #scholarship-details ul li::before {
+      content: "• ";
+      color: #007bff;
+    }
+
+    /* GALLERY & PAST RECIPIENTS CAROUSELS */
+    .carousel-item .row > div { padding: 5px; }
+    .gallery-image, .recipient-image {
+      width: 100%;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      cursor: pointer;
+    }
+    .gallery-image { padding-bottom: 75%; } /* 4:3 ratio */
+    .recipient-image { padding-bottom: 133.33%; } /* 3:4 ratio */
+    .carousel-caption { display: none; }
+    
+    /* NETWORK & FINAL CTA */
+    /* (Add any additional styling as needed) */
+
+    /* MODAL CUSTOMIZATION */
+    .modal-dialog {
+      max-width: 90%;
+      margin: 1rem auto;
+    }
+    .modal-body {
+      padding: 0;
+    }
+    .modal-body img {
+      width: 100%;
+      max-height: 65vh; /* As requested */
+      object-fit: contain;
+      display: block;
+    }
+
+    /* PERSISTENT FIXED DOWNWARD CHEVRON */
+    .fixed-chevron {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 2rem;
+      color: #fff;
+      cursor: pointer;
+      z-index: 1300;
+      animation: bounce 3s infinite;
+      text-shadow: 1px 1px 2px black;
+
+    }
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+      40% { transform: translateX(-50%) translateY(-5px); }
+      60% { transform: translateX(-50%) translateY(-2px); }
+    }
