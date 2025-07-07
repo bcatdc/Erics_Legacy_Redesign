@@ -49,31 +49,43 @@
         rootMargin: "0px 0px 70% 0px"
       };
 
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            const newBg = entry.target.getAttribute('data-bg');
-            let activeDiv, inactiveDiv;
-            if (currentActive === 1) {
-              activeDiv = parallax1;
-              inactiveDiv = parallax2;
-            } else {
-              activeDiv = parallax2;
-              inactiveDiv = parallax1;
-            }
-            // Only update if the inactive div doesn't already have the new background
-            if (inactiveDiv.style.backgroundImage !== `url("${newBg}")`) {
-              inactiveDiv.style.backgroundImage = `url('${newBg}')`;
-              inactiveDiv.style.opacity = 0;
-              setTimeout(() => {
-                activeDiv.style.opacity = 0;
-                inactiveDiv.style.opacity = 1;
-                currentActive = (currentActive === 1) ? 2 : 1;
-              }, 100);
-            }
-          }
-        });
-      }, observerOptions);
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const newBg = entry.target.getAttribute('data-bg');
+      const desktopPos = entry.target.getAttribute('data-bg-pos') || 'center center';
+      const mobilePos = entry.target.getAttribute('data-mobile-bg-pos') || 'center center';
+      const isMobile = window.innerWidth <= 770;
+
+      const bgPosition = isMobile ? mobilePos : desktopPos;
+
+      let activeDiv, inactiveDiv;
+      if (currentActive === 1) {
+        activeDiv = parallax1;
+        inactiveDiv = parallax2;
+      } else {
+        activeDiv = parallax2;
+        inactiveDiv = parallax1;
+      }
+
+      // Only update if the inactive div doesn't already have the new background
+      if (inactiveDiv.style.backgroundImage !== `url("${newBg}")`) {
+        inactiveDiv.style.backgroundImage = `url('${newBg}')`;
+        inactiveDiv.style.backgroundPosition = bgPosition;
+        inactiveDiv.style.backgroundSize = 'cover';
+        inactiveDiv.style.backgroundRepeat = 'no-repeat';
+        inactiveDiv.style.opacity = 0;
+
+        setTimeout(() => {
+          activeDiv.style.opacity = 0;
+          inactiveDiv.style.opacity = 1;
+          currentActive = (currentActive === 1) ? 2 : 1;
+        }, 100);
+      }
+    }
+  });
+}, observerOptions);
 
       sections.forEach(section => observer.observe(section));
     });
